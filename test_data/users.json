@@ -1,0 +1,14 @@
+{
+  "company1": {
+    "admin": {
+      "email": "admin@company1.com",
+      "password": "password123"
+    }
+  },
+  "company2": {
+    "user": {
+      "email": "user@company2.com",
+      "password": "password123"
+    }
+  }
+}
