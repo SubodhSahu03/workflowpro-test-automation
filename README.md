@@ -113,30 +113,31 @@ Corrected Login Test (Reliable Version):-
             browser.close()
 
 Corrected Multi-Tenant Test (Reliable Version):-
-      def test_multi_tenant_access():
-          with sync_playwright() as p:
-               browser = p.chromium.launch(headless=True)
-               context = browser.new_context()
-               page = context.new_page()
 
-               page.goto("https://app.workflowpro.com/login", wait_until="networkidle")
+        def test_multi_tenant_access():
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=True)
+                context = browser.new_context()
+                page = context.new_page()
 
-               page.fill("#email", "user@company2.com")
-               page.fill("#password", "password123")
-               page.click("#login-btn")
+                page.goto("https://app.workflowpro.com/login", wait_until="networkidle")
 
-               # Wait for dashboard
-               page.wait_for_url("**/dashboard", timeout=15000)
-               page.wait_for_selector(".project-card", timeout=20000)
+                page.fill("#email", "user@company2.com")
+                page.fill("#password", "password123")
+                page.click("#login-btn")
 
-               projects = page.locator(".project-card")
-               count = projects.count()
+                # Wait for dashboard
+                page.wait_for_url("**/dashboard", timeout=15000)
+                page.wait_for_selector(".project-card", timeout=20000)
 
-               for i in range(count):
-                   assert "Company2" in projects.nth(i).inner_text()
+                projects = page.locator(".project-card")
+                count = projects.count()
 
-               context.close()
-               browser.close()
+                for i in range(count):
+                    assert "Company2" in projects.nth(i).inner_text()
+
+                context.close()
+                browser.close()
 
 4. Reliability Improvements Summary
 Improvement	Benefit
