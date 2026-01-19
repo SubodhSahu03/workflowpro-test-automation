@@ -83,60 +83,60 @@ Key Improvements Applied
 ✔ CI-safe browser handling
 
 Corrected Login Test (Reliable Version):-
-import pytest
-from playwright.sync_api import sync_playwright
+      import pytest
+      from playwright.sync_api import sync_playwright
 
-def test_user_login():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context()
-        page = context.new_page()
+      def test_user_login():
+          with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context()
+            page = context.new_page()
 
-        # Navigate to login page
-        page.goto("https://app.workflowpro.com/login", wait_until="networkidle")
+            # Navigate to login page
+            page.goto("https://app.workflowpro.com/login", wait_until="networkidle")
 
-        # Fill login form
-        page.fill("#email", "admin@company1.com")
-        page.fill("#password", "password123")
-        page.click("#login-btn")
+            # Fill login form
+            page.fill("#email", "admin@company1.com")
+            page.fill("#password", "password123")
+            page.click("#login-btn")
 
-        # Wait for successful navigation
-        page.wait_for_url("**/dashboard", timeout=15000)
+            # Wait for successful navigation
+            page.wait_for_url("**/dashboard", timeout=15000)
 
-        # Wait for dashboard to load completely
-        page.wait_for_selector(".welcome-message", timeout=15000)
+            # Wait for dashboard to load completely
+            page.wait_for_selector(".welcome-message", timeout=15000)
 
-        # Assertion
-        assert page.locator(".welcome-message").is_visible()
+            # Assertion
+            assert page.locator(".welcome-message").is_visible()
 
-        context.close()
-        browser.close()
+            context.close()
+            browser.close()
 
 Corrected Multi-Tenant Test (Reliable Version):-
-def test_multi_tenant_access():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context()
-        page = context.new_page()
+      def test_multi_tenant_access():
+          with sync_playwright() as p:
+               browser = p.chromium.launch(headless=True)
+               context = browser.new_context()
+               page = context.new_page()
 
-        page.goto("https://app.workflowpro.com/login", wait_until="networkidle")
+               page.goto("https://app.workflowpro.com/login", wait_until="networkidle")
 
-        page.fill("#email", "user@company2.com")
-        page.fill("#password", "password123")
-        page.click("#login-btn")
+               page.fill("#email", "user@company2.com")
+               page.fill("#password", "password123")
+               page.click("#login-btn")
 
-        # Wait for dashboard
-        page.wait_for_url("**/dashboard", timeout=15000)
-        page.wait_for_selector(".project-card", timeout=20000)
+               # Wait for dashboard
+               page.wait_for_url("**/dashboard", timeout=15000)
+               page.wait_for_selector(".project-card", timeout=20000)
 
-        projects = page.locator(".project-card")
-        count = projects.count()
+               projects = page.locator(".project-card")
+               count = projects.count()
 
-        for i in range(count):
-            assert "Company2" in projects.nth(i).inner_text()
+               for i in range(count):
+                   assert "Company2" in projects.nth(i).inner_text()
 
-        context.close()
-        browser.close()
+               context.close()
+               browser.close()
 
 4. Reliability Improvements Summary
 Improvement	Benefit
